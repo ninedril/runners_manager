@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	# mylibrary login
 	dv.get('https://mylibrary.ritsumei.ac.jp/mylibrary/')
 	dv.find_element_by_xpath("/html/body//*[.='ログイン']").click()
-	username = input('Username: ')
+	username = input('Username:')
 	password = getpass()
 	
 	
