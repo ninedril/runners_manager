@@ -4,13 +4,18 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.support.ui import WebDriverWait
+
 import re, time, glob, time, os, shutil, math
+
+from getpass import getpass
+
 from pyvirtualdisplay import Display
 
 def produceChrome(config_dir='setting/profile'):
 	op = Options()
 	op.add_argument('user-data-dir=' + config_dir)
-	driver = webdriver.Chrome('bin/chrome/chrome.exe', chrome_options=op)
+	op.binary_location = 'bin/chrome/chrome.exe'
+	driver = webdriver.Chrome('bin/chromedriver.exe', chrome_options=op)
 	return driver
 
 #HeadlessなChromeを起動する
@@ -24,4 +29,10 @@ def ghostChrome():
 
 if __name__ == '__main__':
 	dv = ghostChrome()
+	# mylibrary login
+	dv.get('https://mylibrary.ritsumei.ac.jp/mylibrary/')
+	dv.find_element_by_xpath("/html/body//*[.='ログイン']").click()
+	username = input('Username: ')
+	password = getpass()
+	
 	
