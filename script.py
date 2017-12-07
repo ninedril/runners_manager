@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from getpass import getpass
+from datetime import date
 
 op = Options()
 op.add_argument('user-data-dir=setting/profile')
@@ -17,5 +19,20 @@ inputs[0].submit()
 dv.find_element_by_xpath("/html/body//*[text()[contains(., '貸出') and contains(., '状況')]]").click()
 
 dv.switch_to_window(dv.window_handles[1])
-table_lines = dv.find_element_by_xpath('//table[descendant::text()[contains(., "延長")]]').find_elements_by_tag_name('tr')
-col_values = list(map(lambda x: x.text, table_lines[0].find_elements_by_tag_name('th')))
+table_rows = dv.find_element_by_xpath('//table[descendant::text()[contains(., "延長")]]').find_elements_by_tag_name('tr')
+first_row = table_rows.pop(0)
+col_values = list(map(lambda x: x.text, first_row.find_elements_by_tag_name('th')))
+
+deadline_index = None
+for v in col_values:
+    if v.find('期限日') != -1:
+        deadline_index = col_values.index(v)
+
+today = date.today()
+for row in table_rows:
+    items = row.find_elements_by_tag_name('td')
+    m = re.search('(\d{,4})\D(\d{,2})\D(\d{,2})', items[deadline_index])
+    deadline = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    if deadline == today:
+        ext_bt = items.find_element_by_xpath('.//*[@*[contains(., "延長")] or text()[contains(., "延長")]]')
+        ext_bt.click()

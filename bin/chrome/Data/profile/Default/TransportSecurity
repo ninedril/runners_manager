@@ -7,14 +7,5 @@
       "pkp_observed": 0.0,
       "sts_include_subdomains": false,
       "sts_observed": 1512551419.789292
-   },
-   "onThyitpg41suTLrBFfPhkH18sRdE1aAt49bv6uxkmA=": {
-      "dynamic_spki_hashes_expiry": 0.0,
-      "expiry": 1512554976.30246,
-      "mode": "force-https",
-      "pkp_include_subdomains": false,
-      "pkp_observed": 0.0,
-      "sts_include_subdomains": false,
-      "sts_observed": 1512551376.302469
    }
 }
