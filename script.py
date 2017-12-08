@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import *
 from getpass import getpass
 from datetime import date
+import re
 
 op = Options()
 op.add_argument('user-data-dir=setting/profile')
@@ -9,15 +11,21 @@ op.binary_location = 'bin/chrome/chrome.exe'
 dv = webdriver.Chrome('bin/chromedriver.exe', chrome_options=op)
 
 dv.get('https://mylibrary.ritsumei.ac.jp/mylibrary/')
-dv.find_element_by_xpath("/html/body//*[.='ログイン']").click()
 
-inputs = dv.find_elements_by_xpath('/html/body//form//input[@type="text" or @type="password"]')
-inputs[0].send_keys(input('Username: '))
-inputs[1].send_keys(getpass())
-inputs[0].submit()
+try:
+    dv.find_element_by_xpath("/html/body//*[.='ログイン']").click()
+except NoSuchElementException:
+    pass
+
+try:
+    inputs = dv.find_elements_by_xpath('/html/body//form//input[@type="text" or @type="password"]')
+    inputs[0].send_keys(input('Username: '))
+    inputs[1].send_keys(getpass())
+    inputs[0].submit()
+except NoSuchElementException:
+    pass
 
 dv.find_element_by_xpath("/html/body//*[text()[contains(., '貸出') and contains(., '状況')]]").click()
-
 dv.switch_to_window(dv.window_handles[1])
 table_rows = dv.find_element_by_xpath('//table[descendant::text()[contains(., "延長")]]').find_elements_by_tag_name('tr')
 first_row = table_rows.pop(0)
@@ -31,7 +39,7 @@ for v in col_values:
 today = date.today()
 for row in table_rows:
     items = row.find_elements_by_tag_name('td')
-    m = re.search('(\d{,4})\D(\d{,2})\D(\d{,2})', items[deadline_index])
+    m = re.search('(\d{,4})\D(\d{,2})\D(\d{,2})', items[deadline_index].text)
     deadline = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
     if deadline == today:
         ext_bt = items.find_element_by_xpath('.//*[@*[contains(., "延長")] or text()[contains(., "延長")]]')
