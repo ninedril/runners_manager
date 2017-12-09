@@ -71,7 +71,7 @@ while is_checked:
     else:
         break
 
-if input('Close the browser?(y/n)') == 'y':
+if input('Close the browser?(y/n)') == '':
     for w in dv.window_handles:
         dv.switch_to_window(w)
         dv.close()

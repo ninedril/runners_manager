@@ -1,11 +1,3 @@
 {
-   "onThyitpg41suTLrBFfPhkH18sRdE1aAt49bv6uxkmA=": {
-      "dynamic_spki_hashes_expiry": 0.0,
-      "expiry": 1512826264.989979,
-      "mode": "force-https",
-      "pkp_include_subdomains": false,
-      "pkp_observed": 0.0,
-      "sts_include_subdomains": false,
-      "sts_observed": 1512822664.989982
-   }
+
 }
