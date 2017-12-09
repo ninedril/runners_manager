@@ -1,112 +1,14 @@
-[11736:1652:1208/194855.573:ERROR:CONSOLE(145)] "Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://mylibrary.ritsumei.ac.jp') does not match the recipient window's origin ('https://www.google.co.jp').", source: chrome-search://most-visited/single.js (145)
-[11736:1652:1208/194855.824:INFO:CONSOLE(17)] "Uncaught TypeError: Cannot read property 'focus' of undefined", source: https://mylibrary.ritsumei.ac.jp/mylibrary/ (17)
-[11736:1652:1208/194855.964:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (561 ms):
-GPU [] 18 MB private, 21 MB shared
-Browser 16 MB private, 27 MB shared
-Tab [ログイン] 10 MB private, 23 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194900.848:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (449 ms):
-GPU [] 19 MB private, 22 MB shared
-Tab [Web Single Sign On | 立命館大学] 17 MB private, 27 MB shared
-Browser 16 MB private, 27 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194915.794:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (377 ms):
-Tab [MyLibrary|貸出・予約状況照会] 28 MB private, 29 MB shared
-GPU [] 24 MB private, 18 MB shared
-Browser 19 MB private, 25 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194920.818:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (396 ms):
-Tab [MyLibrary|貸出・予約状況照会] 28 MB private, 29 MB shared
-GPU [] 24 MB private, 19 MB shared
-Browser 19 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194925.892:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (458 ms):
-GPU [] 24 MB private, 21 MB shared
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 29 MB shared
-Browser 19 MB private, 27 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194930.855:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (398 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 29 MB shared
-GPU [] 24 MB private, 20 MB shared
-Browser 19 MB private, 27 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194935.832:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (388 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 29 MB shared
-GPU [] 23 MB private, 19 MB shared
-Browser 19 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194940.813:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (364 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 29 MB shared
-GPU [] 23 MB private, 19 MB shared
-Browser 19 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194945.822:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (373 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 29 MB shared
-GPU [] 23 MB private, 19 MB shared
-Browser 20 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194950.812:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (355 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 29 MB shared
-GPU [] 23 MB private, 19 MB shared
-Browser 20 MB private, 27 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/194955.802:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (335 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 23 MB shared
-Browser 20 MB private, 26 MB shared
-GPU [] 19 MB private, 19 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195000.821:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (338 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 23 MB shared
-Browser 20 MB private, 26 MB shared
-GPU [] 19 MB private, 19 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195005.853:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (359 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 23 MB shared
-Browser 20 MB private, 26 MB shared
-GPU [] 19 MB private, 19 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195010.851:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (348 ms):
-Tab [MyLibrary|貸出・予約状況照会] 24 MB private, 23 MB shared
-Browser 20 MB private, 26 MB shared
-GPU [] 19 MB private, 19 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195020.893:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (365 ms):
-Tab [MyLibrary|貸出・予約状況照会] 25 MB private, 23 MB shared
-GPU [] 23 MB private, 19 MB shared
-Browser 20 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195031.298:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (756 ms):
-GPU [] 23 MB private, 22 MB shared
-Tab [MyLibrary|貸出・予約状況照会] 21 MB private, 24 MB shared
-Browser 20 MB private, 28 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195035.926:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (372 ms):
-GPU [] 23 MB private, 19 MB shared
-Tab [MyLibrary|貸出・予約状況照会] 21 MB private, 23 MB shared
-Browser 20 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195040.927:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (365 ms):
-GPU [] 23 MB private, 19 MB shared
-Tab [MyLibrary|貸出・予約状況照会] 20 MB private, 23 MB shared
-Browser 20 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[11736:1652:1208/195105.718:INFO:CONSOLE(1)] "Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For more help, check https://xhr.spec.whatwg.org/.", source: https://mylibrary.ritsumei.ac.jp/opac-html/js/prototype.js (1)
-[11736:1652:1208/195111.027:INFO:chrome_cryptauth_service.cc(222)] Profile is not authenticated yet; waiting before starting CryptAuth managers.
+[9976:7264:1209/213103.819:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\Thumbnails: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Thumbnails/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:2508:1209/213103.940:ERROR:data_store_impl.cc(131)] Failed to open Data Reduction Proxy DB: 3
+[9976:740:1209/213104.424:INFO:CONSOLE(8)] "SW registered", source: https://www.google.co.jp/_/chrome/newtab?espv=2&ie=UTF-8 (8)
+[9976:7264:1209/213104.525:ERROR:leveldb_database.cc(319)] Failed to open LevelDB database from C:\Development\runners_manager\bin\chrome\Data\profile\Default\IndexedDB\https_www.google.co.jp_0.indexeddb.leveldb,IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\IndexedDB\https_www.google.co.jp_0.indexeddb.leveldb/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:7264:1209/213104.526:ERROR:indexed_db_backing_store.cc(1439)] Unable to open backing store, not trying to recover - IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\IndexedDB\https_www.google.co.jp_0.indexeddb.leveldb/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:7264:1209/213105.428:WARNING:value_store_frontend.cc(42)] Reading eemcgdkfndhakfknompkggombfjjjeno.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:7264:1209/213105.434:WARNING:value_store_frontend.cc(42)] Reading mfehgcgbbipciphmccgaenjidiccnmng.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:7264:1209/213105.441:WARNING:value_store_frontend.cc(42)] Reading ahfgeienlihckogmohjhadlkjgocpleb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:7264:1209/213105.446:WARNING:value_store_frontend.cc(42)] Reading mhjfbmdgcfjbbpaeojofohoefgiehjai.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:7264:1209/213105.481:WARNING:value_store_frontend.cc(42)] Reading aapnijgdinlhnhlmodcfapnahmbfebeb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:4352:1209/213113.098:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\EventDB: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\EventDB/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:4352:1209/213113.110:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\AvailabilityDB: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\AvailabilityDB/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[9976:740:1209/213113.132:INFO:CONSOLE(1)] "Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For more help, check https://xhr.spec.whatwg.org/.", source: https://mylibrary.ritsumei.ac.jp/opac-html/js/prototype.js (1)
+[9976:740:1209/213113.243:INFO:chrome_cryptauth_service.cc(222)] Profile is not authenticated yet; waiting before starting CryptAuth managers.
