@@ -11,31 +11,13 @@ def launchChrome():
 	driver = webdriver.Chrome('bin/chromedriver.exe', chrome_options=op)
 	return driver
 
-dv.get('https://mylibrary.ritsumei.ac.jp/mylibrary/')
-dv.find_element_by_xpath("/html/body//*[.='ログイン']").click()
+def findDeadlineIndex(driver):
+    header_row = driver.find_element_by_xpath('//table[descendant::text()[contains(., "延長")]]').find_element_by_tag_name('tr')
+    col_values = list(map(lambda x: x.text, header_row.find_elements_by_tag_name('th')))
 
-inputs = dv.find_elements_by_xpath('/html/body//form//input[@type="text" or @type="password"]')
-inputs[0].send_keys(input('Username: '))
-inputs[1].send_keys(getpass())
-inputs[0].submit()
-
-dv.find_element_by_xpath("/html/body//*[text()[contains(., '貸出') and contains(., '状況')]]").click()
-
-dv.switch_to_window(dv.window_handles[1])
-table_rows = dv.find_element_by_xpath('//table[descendant::text()[contains(., "延長")]]').find_elements_by_tag_name('tr')
-first_row = table_rows.pop(0)
-col_values = list(map(lambda x: x.text, first_row.find_elements_by_tag_name('th')))
-
-deadline_index = None
-for v in col_values:
-    if v.find('期限日') != -1:
-        deadline_index = col_values.index(v)
-
-today = date.today()
-for row in table_rows:
-    items = row.find_elements_by_tag_name('td')
-    m = re.search('(\d{,4})\D(\d{,2})\D(\d{,2})', items[deadline_index].text)
-    deadline = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-    if deadline == today:
-        ext_bt = items.find_element_by_xpath('.//*[@*[contains(., "延長")] or text()[contains(., "延長")]]')
-        ext_bt.click()
+    deadline_index = None
+    for v in col_values:
+        if v.find('期限日') != -1:
+            deadline_index = col_values.index(v)
+    
+    return deadline_index
