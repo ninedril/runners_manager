@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import *
 from getpass import getpass
 from datetime import date
-import re
+import re, time, sys
 
 op = Options()
 op.add_argument('user-data-dir=setting/profile')
@@ -20,8 +20,10 @@ except NoSuchElementException:
 try:
     inputs = dv.find_elements_by_xpath('/html/body//form//input[@type="text" or @type="password"]')
     if(len(inputs) != 2): raise NoSuchElementException()
-    inputs[0].send_keys(input('Username: '))
-    inputs[1].send_keys(getpass())
+    #inputs[0].send_keys(input('Username: '))
+    inputs[0].send_keys(sys.argv[1])
+    #inputs[1].send_keys(getpass())
+    inputs[1].send_keys(sys.argv[2])
     inputs[0].submit()
 except NoSuchElementException:
     pass
@@ -71,8 +73,10 @@ while is_checked:
     else:
         break
 
-if input('Close the browser?(y/n)') == '':
-    for w in dv.window_handles:
-        dv.switch_to_window(w)
-        dv.close()
-    dv.quit()
+for w in dv.window_handles:
+    dv.switch_to_window(w)
+    dv.close()
+    time.sleep(0.5)
+dv.quit()
+
+sys.exit(0)
