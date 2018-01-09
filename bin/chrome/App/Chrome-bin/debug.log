@@ -25,3 +25,6 @@
 [1223/100753.986:ERROR:process_reader_win.cc(123)] NtOpenThread: {アクセス拒否} プロセスはオブジェクトのアクセスを要求しましたが、アクセス権が与えられていません。  (0xc0000022)
 [1223/100753.987:ERROR:exception_snapshot_win.cc(87)] thread ID 5080 not found in process
 [1223/100753.987:WARNING:crash_report_exception_handler.cc(62)] ProcessSnapshotWin::Initialize failed
+[0109/162359.681:ERROR:process_reader_win.cc(123)] NtOpenThread: {アクセス拒否} プロセスはオブジェクトのアクセスを要求しましたが、アクセス権が与えられていません。  (0xc0000022)
+[0109/162359.681:ERROR:exception_snapshot_win.cc(87)] thread ID 10248 not found in process
+[0109/162359.681:WARNING:crash_report_exception_handler.cc(62)] ProcessSnapshotWin::Initialize failed

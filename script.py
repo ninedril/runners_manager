@@ -5,6 +5,8 @@ from getpass import getpass
 from datetime import date
 import re, time, sys
 
+from function import *
+
 op = Options()
 op.add_argument('user-data-dir=setting/profile')
 op.binary_location = 'bin/chrome/chrome.exe'
@@ -33,7 +35,10 @@ dv.switch_to_window(dv.window_handles[1])
 try:
     header_row = dv.find_element_by_xpath('//table[descendant::text()[contains(., "延長")]]').find_element_by_tag_name('tr')
 except NoSuchElementException:
-    raise Exception('No book can be extended!')
+    #raise Exception('No book can be extended!')
+    dv.execute_script("alert('No book can be extended!')")
+    time.sleep(4)
+    exit_browser(dv)
 
 col_values = list(map(lambda x: x.text, header_row.find_elements_by_tag_name('th')))
 
@@ -73,10 +78,4 @@ while is_checked:
     else:
         break
 
-for w in dv.window_handles:
-    dv.switch_to_window(w)
-    dv.close()
-    time.sleep(0.5)
-dv.quit()
-
-sys.exit(0)
+exit_browser(dv)

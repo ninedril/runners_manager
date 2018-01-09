@@ -1,20 +1,17 @@
-[10724:4384:1229/022905.206:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\Thumbnails: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Thumbnails/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:9772:1229/022905.347:ERROR:data_store_impl.cc(131)] Failed to open Data Reduction Proxy DB: 3
-[10724:9772:1229/022906.713:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\GCM Store\Encryption: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\GCM Store\Encryption/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:12164:1229/022906.765:ERROR:leveldb_database.cc(319)] Failed to open LevelDB database from C:\Development\runners_manager\bin\chrome\Data\profile\Default\IndexedDB\https_www.google.co.jp_0.indexeddb.leveldb,IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\IndexedDB\https_www.google.co.jp_0.indexeddb.leveldb/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:12164:1229/022906.766:ERROR:indexed_db_backing_store.cc(1439)] Unable to open backing store, not trying to recover - IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\IndexedDB\https_www.google.co.jp_0.indexeddb.leveldb/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:12208:1229/022907.098:INFO:CONSOLE(17)] "Uncaught TypeError: Cannot read property 'focus' of undefined", source: https://mylibrary.ritsumei.ac.jp/mylibrary/ (17)
-[10724:7660:1229/022907.285:WARNING:value_store_frontend.cc(42)] Reading eemcgdkfndhakfknompkggombfjjjeno.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.291:WARNING:value_store_frontend.cc(42)] Reading mfehgcgbbipciphmccgaenjidiccnmng.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.298:WARNING:value_store_frontend.cc(42)] Reading ahfgeienlihckogmohjhadlkjgocpleb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.304:WARNING:value_store_frontend.cc(42)] Reading mhjfbmdgcfjbbpaeojofohoefgiehjai.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.309:WARNING:value_store_frontend.cc(42)] Reading nmmhkkegccagdldgiimedpiccmgmieda.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.315:WARNING:value_store_frontend.cc(42)] Reading nmmhkkegccagdldgiimedpiccmgmieda.context_menus from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.320:WARNING:value_store_frontend.cc(42)] Reading pkedcjkdefgpdelpbcmbmeomcjbeemfm.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.326:WARNING:value_store_frontend.cc(42)] Reading pkedcjkdefgpdelpbcmbmeomcjbeemfm.context_menus from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:7660:1229/022907.374:WARNING:value_store_frontend.cc(42)] Reading aapnijgdinlhnhlmodcfapnahmbfebeb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:11812:1229/024433.971:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\EventDB: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\EventDB/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:11812:1229/024433.981:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\AvailabilityDB: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Feature Engagement Tracker\AvailabilityDB/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
-[10724:12208:1229/024435.052:ERROR:gpu_process_transport_factory.cc(992)] Lost UI shared context.
-[10724:12208:1229/115440.911:ERROR:gpu_process_transport_factory.cc(992)] Lost UI shared context.
-[10724:12208:1229/123000.987:INFO:chrome_cryptauth_service.cc(222)] Profile is not authenticated yet; waiting before starting CryptAuth managers.
+[2904:4568:0109/163402.036:ERROR:data_store_impl.cc(131)] Failed to open Data Reduction Proxy DB: 3
+[2904:7404:0109/163406.644:INFO:CONSOLE(8)] "SW registered", source: https://www.google.co.jp/_/chrome/newtab?espv=2&ie=UTF-8 (8)
+[2904:7404:0109/163407.420:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (624 ms):
+Browser 17 MB private, 24 MB shared
+GPU [] 12 MB private, 21 MB shared
+Tab [MyLibrary] 9 MB private, 18 MB shared
+Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
+
+[2904:7404:0109/163412.160:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (361 ms):
+Tab [貸出・予約状況照会|MyLibrary] 21 MB private, 27 MB shared
+Browser 20 MB private, 25 MB shared
+GPU [] 20 MB private, 18 MB shared
+Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
+
+[2904:7404:0109/163414.954:INFO:CONSOLE(1)] "Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For more help, check https://xhr.spec.whatwg.org/.", source: https://mylibrary.ritsumei.ac.jp/opac-html/js/prototype.js (1)
+[2904:7404:0109/163415.479:INFO:chrome_cryptauth_service.cc(222)] Profile is not authenticated yet; waiting before starting CryptAuth managers.
+[2904:7992:0109/163415.511:ERROR:gcm_store_impl.cc(311)] Failed to open database C:\Development\runners_manager\bin\chrome\Data\profile\Default\GCM Store: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\GCM Store/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)

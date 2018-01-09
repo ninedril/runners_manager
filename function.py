@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from getpass import getpass
 from datetime import date
-import re
+import sys, re, time
 
 def launchChrome():
 	op = Options()
@@ -21,3 +21,11 @@ def findDeadlineIndex(driver):
             deadline_index = col_values.index(v)
     
     return deadline_index
+
+def exit_browser(wd):
+    for w in wd.window_handles:
+        wd.switch_to_window(w)
+        wd.close()
+        time.sleep(0.5)
+    wd.quit()
+    sys.exit(0)
