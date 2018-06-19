@@ -12,7 +12,7 @@ op.add_argument('user-data-dir=setting/profile')
 op.binary_location = 'bin/chrome/chrome.exe'
 dv = webdriver.Chrome('bin/chromedriver.exe', chrome_options=op)
 
-dv.get('https://mylibrary.ritsumei.ac.jp/mylibrary/')
+dv.get('https://runners.ritsumei.ac.jp/opac/opac_search/?loginMode=disp&ssosw=1&lang=0')
 
 try:
     dv.find_element_by_xpath("/html/body//*[.='ログイン']").click()
@@ -78,4 +78,5 @@ while is_checked:
     else:
         break
 
+dv.execute_script("alert('Possible books were returned!')")
 exit_browser(dv)
