@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from getpass import getpass
 from datetime import date
-import sys, re, time
+import sys, re, time, datetime
 
 def launchChrome():
 	op = Options()
@@ -29,3 +29,15 @@ def exit_browser(wd):
         time.sleep(0.5)
     wd.quit()
     sys.exit(0)
+
+def log(text):
+	with open('mylog.log', 'a') as f:
+		f.write("[" + str(datetime.datetime.today()) + "] " + text + "\n")
+
+# [WebElements] =>
+def click_each_elems(elements):
+    for e in elements:
+        try:
+            e.click()
+        except:
+            continue

@@ -1,33 +1,14 @@
-[4140:11596:0620/032944.670:ERROR:data_store_impl.cc(131)] Failed to open Data Reduction Proxy DB: 3
-[4140:5624:0620/032954.558:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (161 ms):
-GPU [] 20 MB private, 19 MB shared
-Browser 19 MB private, 25 MB shared
-Tab [securelogin] 15 MB private, 25 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[4140:5624:0620/033009.548:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (162 ms):
-GPU [] 25 MB private, 20 MB shared
-Tab [立命館大学 RUNNERS] 23 MB private, 29 MB shared
-Browser 20 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[4140:5624:0620/033014.568:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (164 ms):
-GPU [] 25 MB private, 20 MB shared
-Tab [立命館大学 RUNNERS] 22 MB private, 29 MB shared
-Browser 21 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[4140:5624:0620/033019.578:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (181 ms):
-GPU [] 25 MB private, 20 MB shared
-Tab [立命館大学 RUNNERS] 24 MB private, 30 MB shared
-Browser 20 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[4140:5624:0620/033024.609:WARNING:oom_memory_details.cc(46)] Tab Discards Memory details (204 ms):
-GPU [] 25 MB private, 20 MB shared
-Tab [立命館大学 RUNNERS] 24 MB private, 30 MB shared
-Browser 20 MB private, 26 MB shared
-Extension [Chrome Automation Extension] 7 MB private, 17 MB shared
-
-[4140:5624:0620/033029.162:INFO:chrome_cryptauth_service.cc(222)] Profile is not authenticated yet; waiting before starting CryptAuth managers.
-[4140:11596:0620/033029.256:ERROR:gcm_store_impl.cc(311)] Failed to open database C:\Development\runners_manager\bin\chrome\Data\profile\Default\GCM Store: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\GCM Store/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[13392:5976:0621/102507.940:ERROR:data_store_impl.cc(131)] Failed to open Data Reduction Proxy DB: 3
+[13392:2640:0621/102508.107:WARNING:leveldb_database.cc(65)] Unable to open C:\Development\runners_manager\bin\chrome\Data\profile\Default\Thumbnails: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Thumbnails/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[13392:7280:0621/102509.426:ERROR:background_sync_manager.cc(354)] BackgroundSync failed to init due to backend failure.
+[13392:11120:0621/102510.975:WARNING:value_store_frontend.cc(42)] Reading eemcgdkfndhakfknompkggombfjjjeno.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[13392:11120:0621/102511.012:WARNING:value_store_frontend.cc(42)] Reading mfehgcgbbipciphmccgaenjidiccnmng.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[13392:11120:0621/102511.032:WARNING:value_store_frontend.cc(42)] Reading ahfgeienlihckogmohjhadlkjgocpleb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[13392:11120:0621/102511.048:WARNING:value_store_frontend.cc(42)] Reading mhjfbmdgcfjbbpaeojofohoefgiehjai.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[13392:11120:0621/102511.066:WARNING:value_store_frontend.cc(42)] Reading aapnijgdinlhnhlmodcfapnahmbfebeb.alarms from  failed: IO error: .../MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[13392:11120:0621/102518.287:ERROR:simple_index_file.cc(296)] Could not create a directory to hold the index file
+[13392:7580:0621/102608.533:WARNING:session_storage_database.cc(386)] Failed to open leveldb in C:\Development\runners_manager\bin\chrome\Data\profile\Default\Session Storage, error: IO error: C:\Development\runners_manager\bin\chrome\Data\profile\Default\Session Storage/MANIFEST-000001: Unable to create sequential file (ChromeMethodBFE: 7::NewSequentialFile::1)
+[15268:14952:0621/222954.867:ERROR:backend_impl.cc(1055)] Critical error found -8
+[15268:13356:0621/222955.032:ERROR:process_singleton_win.cc(409)] Lock file can not be created! Error code: 32
+[15268:13356:0621/222955.033:ERROR:chrome_browser_main.cc(1498)] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
+[15268:11372:0621/222955.695:ERROR:browser_gpu_channel_host_factory.cc(108)] Failed to launch GPU process.
