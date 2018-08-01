@@ -1,5 +1,5 @@
 # runners_manager
-Auto Extending of Rits Runners
+立命館大学図書館の貸出延長を自動化します。
 
 立命館大学図書館の蔵書システムであるRUNNERS（https://runners.ritsumei.ac.jp/opac/opac_search/?lang=0）
 の貸出延長を定期的に自動で行う簡易スクリプト。
