@@ -19,6 +19,6 @@ Auto Extending of Rits Runners
 1.Windows + Rで出てくるボックスに「taskschd.msc」を入力し実行<br>
 2.右側のバー「操作」→「タスクのインポート」→「操作タブ」→「編集ボタン」を押す<br>
 3.「引数の追加」の「user_id」「password」「メールアドレス」「メールアドレスのパスワード」を自分のものに書き換える。<br>
- &nbsp&nbsp user_id: RunnersのID<br>
- &nbsp&nbsp password: Runnersのパスワード<br>
+ &nbsp;&nbsp; user_id: RunnersのID<br>
+ &nbsp;&nbsp; password: Runnersのパスワード<br>
 4.「開始」の部分にダウンロードしたフォルダのパスを設定する<br>
