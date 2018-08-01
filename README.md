@@ -22,3 +22,4 @@ Auto Extending of Rits Runners
  &nbsp;&nbsp; user_id: RunnersのID<br>
  &nbsp;&nbsp; password: Runnersのパスワード<br>
 4.「開始」の部分にダウンロードしたフォルダのパスを設定する<br>
+5.「トリガー」タブを開き、時間を再設定（初期値は10:25）<br>
