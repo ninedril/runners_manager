@@ -1,25 +1,29 @@
+from email.mime.text import MIMEText
+import smtplib
 from selenium import webdriver
 from selenium.common.exceptions import *
 from getpass import getpass
 from datetime import date
-import re, time, sys
+import re
+import time
+import sys
 
 from function import *
 
-
+'''
+第一引数: ID（cp0006fx など）
+第二引数: パスワード
+'''
 locators = {
     ''
 }
 
 
-import smtplib
-from email.mime.text import MIMEText
-
 class MailSender:
     def __init__(self, my_address, my_pswd):
         self.my_address = my_address
         self.my_pswd = my_pswd
-    
+
     def send(self, to_addr, subject, text=""):
         msg = MIMEText(text)
         msg['Subject'] = subject
@@ -36,11 +40,12 @@ class MailSender:
 
 
 def login_sso_page(driver):
-    # 1st condition: 
+    # 1st condition:
     elems = driver.find_elements_by_xpath('/html/body//form//input[@type="text" or @type="password"]')
     boolean_1st = bool(elems == 2)
     # 2nd
     return ''
+
 
 def display_element(driver, elem):
     ancestors = elem.find_elements_by_xpath('./ancestor::*')
@@ -48,11 +53,12 @@ def display_element(driver, elem):
         if not(e.is_displayed()):
             driver.execute_script('arguments[0].setAttribute("style", "display: initial")', e)
 
+
 log("Start running the program.")
 
 first_url = "https://runners.ritsumei.ac.jp/opac/opac_search"
 
-dv = webdriver.Chrome('../chromedriver.exe')
+dv = webdriver.Chrome('bin/chromedriver.exe')
 dv.implicitly_wait(10)
 
 dv.get('https://runners.ritsumei.ac.jp/opac/opac_search/?loginMode=disp&lang=0&opkey=&cmode=0&smode=0&ssosw=1')
@@ -63,12 +69,12 @@ except NoSuchElementException:
     pass
 
 inputs = dv.find_elements_by_xpath('/html/body//form//input[@type="text" or @type="password"]')
-if(len(inputs) != 2): 
+if(len(inputs) != 2):
     print(len(inputs))
     raise NoSuchElementException()
 #inputs[0].send_keys(input('Username: '))
 inputs[0].send_keys(sys.argv[1])
-#inputs[1].send_keys(getpass())
+# inputs[1].send_keys(getpass())
 inputs[1].send_keys(sys.argv[2])
 inputs[0].submit()
 
@@ -88,7 +94,8 @@ except:
     pass
 
 try:
-    header_row = dv.find_element_by_xpath('//table[descendant::text()[contains(., "延長")]]').find_element_by_tag_name('tr')
+    header_row = dv.find_element_by_xpath(
+        '//table[descendant::text()[contains(., "延長")]]').find_element_by_tag_name('tr')
 except NoSuchElementException:
     #raise Exception('No book can be extended!')
     print("alert('No book can be extended!')")
@@ -126,7 +133,8 @@ while is_checked:
         log('Due date is ' + str(deadline))
         if deadline == today:
             try:
-                ext_bt = row.find_element_by_xpath('.//*[self::input or self::a][@*[contains(., "延長")] or text()[contains(., "延長")]]')
+                ext_bt = row.find_element_by_xpath(
+                    './/*[self::input or self::a][@*[contains(., "延長")] or text()[contains(., "延長")]]')
                 if not(ext_bt.is_displayed()):
                     display_element(dv, ext_bt)
                 ext_bt.click()
@@ -136,7 +144,8 @@ while is_checked:
                 continue
         elif (deadline - today).days == 1:
             try:
-                ext_bt = row.find_element_by_xpath('.//*[self::input or self::a][@*[contains(., "延長")] or text()[contains(., "延長")]]')
+                ext_bt = row.find_element_by_xpath(
+                    './/*[self::input or self::a][@*[contains(., "延長")] or text()[contains(., "延長")]]')
             except NoSuchElementException:
                 ms = MailSender(mail_addr, mail_pswd)
                 ms.send(mail_addr, subject='!!!Return library books on tomorrow!!!')
