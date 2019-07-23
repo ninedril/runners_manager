@@ -1,3 +1,4 @@
+import pdb
 from email.mime.text import MIMEText
 import smtplib
 from selenium import webdriver
@@ -58,7 +59,10 @@ log("Start running the program.")
 
 first_url = "https://runners.ritsumei.ac.jp/opac/opac_search"
 
-dv = webdriver.Chrome('bin/chromedriver.exe')
+op = webdriver.ChromeOptions()
+pdb.set_trace()
+op.binary_location = 'bin/chrome/App/Chrome-bin/chrome.exe'
+dv = webdriver.Chrome('bin/chromedriver.exe', chrome_options=op)
 dv.implicitly_wait(10)
 
 dv.get('https://runners.ritsumei.ac.jp/opac/opac_search/?loginMode=disp&lang=0&opkey=&cmode=0&smode=0&ssosw=1')
