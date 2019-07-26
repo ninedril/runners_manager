@@ -6,6 +6,9 @@ import pandas
 import datetime
 import wx
 import pdb
+import re
+
+# 関数定義
 
 
 def get_source_of_HtmlElement(HtmlElement, encoding):
@@ -23,6 +26,8 @@ def get_source_of_HtmlElement(HtmlElement, encoding):
     s = lxml.html.tostring(HtmlElement, encoding=encoding)
     s = s.decode(encoding)
     return s
+
+# クラス定義
 
 
 class SessionWrapper:
@@ -85,24 +90,15 @@ class SessionWrapper:
 
     @property
     def text(self):
-        result = ''
-        if self.result.text:
-            result = self.result.text
-        return result
+        return self.result.text if self.result.text else ''
 
     @property
     def url(self):
-        result = ''
-        if self.result.url:
-            result = self.result.url
-        return result
+        return self.result.url if self.result.url else ''
 
     @property
     def content(self):
-        result = b''
-        if self.result.content:
-            result = self.result.content
-        return result
+        return self.result.content if self.result.content else b''
 
     @property
     def encoding(self):
@@ -150,53 +146,188 @@ class app(wx.App):
         pass
 
 
+class BorrowedBook:
+    '''
+    貸し出し中の本を表現するクラス
+    '''
+
+    def __init__(self):
+        # 本を識別する固有のID
+        self.bookid = ''
+        # 書籍名
+        self.title = ''
+        # 返却期限日。Date型
+        self.deadline = None
+        # 延長した回数
+        self.extended_num = 0
+        # 予約人数
+        self.preserve_num = 0
+        # 延長可能かどうか
+        self.is_extendable = True
+
+    def get_days_to_deadline(self, starndard_date=datetime.date.today()):
+        """
+        返却期限日まで残された日数。
+
+        Parameters
+        ----------
+        starndard_date: datetime.date, default datetime.date.today()
+            基準となる日付。デフォルトで呼び出した時の日付。
+
+        Returns
+        ----------
+        result: int
+            残りの日数
+        """
+        pass
+
+
 class RunnersManager:
     """
     入力: LOGIN_ID, LOGIN_PASS
-    動作: 
-    出力: 
+    動作: runnersにログインし、該当の図書貸出を延長する
+    出力: もう延長できない本のタイトルと期限日をリストで返却
+
+    ※略語※
+    lst: loan_status_table の略
     """
 
-    def __init__(self, setting_obj={}):
-        # 設定ファイルを読み込む
-        if(os.path.)
+    def __init__(self):
+        self.session = SessionWrapper()
+        self.loan_status_df = None
 
-    def main(self):
-        ### 一般設定ここから ###
-        LOGIN_ID = ''
-        LOGIN_PASS = ''
-        LOGIN_URL = 'https://runners.ritsumei.ac.jp/opac/opac_search/?loginMode=disp&lang=0'
-        LOGIN_FORM_XPATH = '//form[@id="opac_login_disp"]'
-        ### 一般設定ここまで ###
+    def login(self, login_id: str, login_pass: str):
+        """
+        Runnersにログインする。
 
-        # 1. SessionWrapperでログインする
-        session = SessionWrapper()
-        session.get(LOGIN_URL)
-        session.post('https://runners.ritsumei.ac.jp/opac/opac_search/', data={
-            'userid': LOGIN_ID,
-            'passwd': LOGIN_PASS
-        }, form_xpath=LOGIN_FORM_XPATH)
+        Parameters
+        ----------
+        login_id: str
+            RunnersのログインID
+        login_pass: str
+            Runnersのログインパスワード
+        """
+        login_url = 'https://runners.ritsumei.ac.jp/opac/opac_search/?loginMode=disp&lang=0'
+        post_url = 'https://runners.ritsumei.ac.jp/opac/opac_search/'
+        login_form_xpath = '//form[@id="opac_login_disp"]'
 
-        # 2. 貸出状況ページに移動し、テーブルをDataFrame化する
-        session.get('https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0')
-        table_elem = session.xpath('//table[@id="datatables_re"]')[0]
+        session = self.session
+        session.get(login_url)
+        session.post(post_url, data={
+            'userid': login_id,
+            'passwd': login_pass
+        }, form_xpath=login_form_xpath)
+
+    def get_borrowed_books(self) -> list[BorrowedBook]:
+        """
+        貸出中の本をBorrowedBookオブジェクトのリストで取得し返す
+        入力: ログイン済みself.session
+        出力: BorrowedBookオブジェクトのリスト
+
+        Returns
+        ----------
+        result: list[BorrowedBook]
+            貸出中の本のリスト
+        """
+        result = []
+
+        loan_status_url = 'https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0'
+        loan_status_table_xpath = '//table[@id="datatables_re"]'
+        lst_colname__bookid = '資料番号'
+        lst_colname__title = '資料名'
+        lst_colname__deadline = '返却期限日'
+        lst_colname__deadline_regex = r'(\d{4})\D(\d{1,2})\D(\d{1,2})'
+        lst_colname__extended_num = '継続回数'
+        lst_colname__preserve_num = '予約有無'
+
+        session = self.session
+        # 貸出状況ページに移動し、テーブルをDataFrame化する
+        session.get(loan_status_url)
+        table_elem = session.xpath(loan_status_table_xpath)[0]
         table_elem_source = get_source_of_HtmlElement(table_elem, session.encoding)
         df = pandas.read_html(table_elem_source)[0]
+        df[lst_colname__deadline] = pandas.to_datetime(df[lst_colname__deadline])
 
-        # 3. DataFrameを整形し、「返却期限日」が今日になっている本の「資料番号」を取得
+        # BorrowedBookオブジェクトを生成してリストに格納する
+        for index, row in df.iterrows():
+            book = BorrowedBook()
+            # bookid
+            book.bookid = row[lst_colname__bookid]
+            # title
+            book.title = row[lst_colname__title]
+
+            # deadline
+            deadline_m = re.search(lst_colname__deadline_regex, row[lst_colname__deadline])
+            if not deadline_m:
+                raise Exception(
+                    "サイト上の返却期限日のフォーマットが異なっています。\nget_borrowed_books()内「lst_colname__deadline_regex」の記述を見直してください。")
+            year = int(deadline_m.group(1))
+            month = int(deadline_m.group(2))
+            day = int(deadline_m.group(3))
+            book.deadline = datetime.date(year=year, month=month, day=day)
+
+            # extended_num
+            extended_num_m = re.findall(r'\d{1,2}', row[lst_colname__extended_num])
+            if len(extended_num_m) != 1:
+                raise Exception("サイト上の延長回数のフォーマットが異なっています。\nget_borrowed_books()内の正規表現を見直してください。")
+            book.extended_num = int(extended_num_m[0])
+
+            # preserve_num
+            preserve_num_m = re.findall(r'\d{1,2}', row[lst_colname__preserve_num])
+            if len(preserve_num_m) != 1:
+                raise Exception("サイト上の予約人数のフォーマットが異なっています。\nget_borrowed_books()内の正規表現を見直してください。")
+            book.preserve_num = int(preserve_num_m[0])
+
+            # is_extendable
+            if book.extended_num < 2 and book.preserve_num == 0:
+                book.is_extendable = True
+            else:
+                book.is_extendable = False
+
+            result.append(book)
+        return result
+
+    def extend_books(self, borrowed_books: list[BorrowedBook], days_until_deadline=0):
+        """
+        貸出状況をチェックし、延長すべきものがあれば延長する。
+
+        Parameters
+        ----------
+        borrowed_books: list[BorrowedBook]
+            貸出中の本のBorrowedBookリスト
+
+        days_until_deadline: int
+            期限日まであと何日に迫っているとき、延長を実行するか。デフォルトは0=期限日当日。
+        """
+        loan_status_url = 'https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0'
+        loan_status_form_xpath = '//form[@id="srv_odr_stat_re"]'
+        loan_post_url = 'https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0'
+
+        session = self.session
+        # 貸出状況確認ページに移動
+        if session.url != loan_status_url:
+            session.get(loan_status_url)
+
+        # 「返却期限日」が今日になっている本の「資料番号」を取得
         today = datetime.date.today()
-        df['返却期限日'] = pandas.to_datetime(df['返却期限日'])
-        bookid_list = list(df[(df['返却期限日'] - today).dt.days == 0]['資料番号'])
+        booleans = (df[lst_colname__deadline] - today).dt.days == days_until_deadline
+        bookid_list = list(df[booleans][lst_colname__bookid])
         bookid_list = [str(e).strip() for e in bookid_list]
         bookid_str = ','.join(bookid_list)
+        if not bookid_list:
+            raise Exception("bookid_listが見つかりません。")
 
-        # 4. 資料番号をPOST送信する（bookid, extchk）
-        session.post('https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0', data={
+        # 資料番号をPOST送信する（bookid, extchk）
+        session.post(loan_post_url, data={
             'bookid': bookid_str,
             'extchk[]': bookid_list,
             'reqCode': 'extre',
             'disp': 're'
-        }, form_xpath='//form[@id="srv_odr_stat_re"]')
+        }, form_xpath=loan_status_form_xpath)
+
+    def extend(self, login_id: str, login_pass: str, days_until_deadline: int):
+        self.login(login_id, login_pass)
+        self.extend_books(days_until_deadline)
 
 
 if __name__ == '__main__':
