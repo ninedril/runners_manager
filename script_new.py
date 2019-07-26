@@ -159,9 +159,9 @@ class BorrowedBook:
         # 返却期限日。Date型
         self.deadline = None
         # 延長した回数
-        self.extended_num = 0
+        self.extended_num = -1
         # 予約人数
-        self.preserve_num = 0
+        self.preserve_num = -1
         # 延長可能かどうか
         self.is_extendable = True
 
@@ -176,10 +176,13 @@ class BorrowedBook:
 
         Returns
         ----------
-        result: int
-            残りの日数
+        result: int, default -1
+            残りの日数。
         """
-        pass
+        result = -1
+        if self.deadline:
+            result = (self.deadline - starndard_date).days
+        return result
 
 
 class RunnersManager:
@@ -252,7 +255,7 @@ class RunnersManager:
         for index, row in df.iterrows():
             book = BorrowedBook()
             # bookid
-            book.bookid = row[lst_colname__bookid]
+            book.bookid = str(row[lst_colname__bookid]).strip()
             # title
             book.title = row[lst_colname__title]
 
@@ -310,9 +313,7 @@ class RunnersManager:
 
         # 「返却期限日」が今日になっている本の「資料番号」を取得
         today = datetime.date.today()
-        booleans = (df[lst_colname__deadline] - today).dt.days == days_until_deadline
-        bookid_list = list(df[booleans][lst_colname__bookid])
-        bookid_list = [str(e).strip() for e in bookid_list]
+        bookid_list = [e.bookid for e in borrowed_books if e.get_days_to_deadline(today) <= days_until_deadline]
         bookid_str = ','.join(bookid_list)
         if not bookid_list:
             raise Exception("bookid_listが見つかりません。")
@@ -327,7 +328,8 @@ class RunnersManager:
 
     def extend(self, login_id: str, login_pass: str, days_until_deadline: int):
         self.login(login_id, login_pass)
-        self.extend_books(days_until_deadline)
+        borrowed_books = self.get_borrowed_books()
+        self.extend_books(borrowed_books, days_until_deadline)
 
 
 if __name__ == '__main__':
