@@ -1,4 +1,22 @@
 {
-	"user": {},
+	"user": {
+		"site_info": {
+			"auth": {
+				"login_id": "",
+				"login_pass": ""
+			}
+		},
+		"program": {
+			"behavior": {
+				"extension": {
+					"days_to_extend": 3
+				},
+				"alert": {
+					"days_to_alert": 7
+				}
+			},
+			"appearance": {}
+		}
+	},
 	"program": {}
 }

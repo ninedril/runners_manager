@@ -119,13 +119,16 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self, frame, icon_path, tray_tip=''):
         self.frame = frame
         super(TaskBarIcon, self).__init__()
-        icon = wx.Icon(wx.Bitmap(icon_path))
-        self.SetIcon(icon, tray_tip)
+        self.icon = wx.Icon(wx.Bitmap(icon_path))
+        self.SetIcon(self.icon, tray_tip)
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_DCLICK, self.app.on_taskbar_l_dclick)
 
     @property
     def app(self):
         return wx.GetApp()
+
+    def set_traytip(self, text):
+        self.SetIcon(self.icon, text)
 
 
 class app(wx.App):
@@ -140,12 +143,27 @@ class app(wx.App):
         TaskBarIcon(frame, 'logo.ico', '立命館図書館の延長自動化')
         # model
         # setting
+        with open('settings.json', 'r', encoding='utf-8') as f:
+            self.S = json.load(f)
 
     def on_taskbar_l_dclick(self, evt):
         pass
 
     def main(self, evt):
-        pass
+        S = self.S
+        # Variable
+        LOGIN_ID = S['user']['site_info']['auth']['login_id']
+        LOGIN_PASS = S['user']['site_info']['auth']['login_pass']
+        DAYS_TO_EXTEND = S['user']['program']['behavior']['extension']['days_to_extend']
+        DAYS_TO_ALERT = S['user']['program']['behavior']['alert']['days_to_alert']
+        today = datetime.date.today()
+        # Main
+        RM = RunnersManager()
+        RM.login(LOGIN_ID, LOGIN_PASS)
+        books = RM.get_borrowed_books()
+        books_to_extend = RM.filter_extendable_books(books, DAYS_TO_EXTEND, today)
+        books_to_alert = RM.filter_unextendable_books(books, DAYS_TO_ALERT, today)
+        RM.extend_books(books_to_extend)
 
 
 class BorrowedBook:
@@ -199,7 +217,6 @@ class RunnersManager:
 
     def __init__(self):
         self.session = SessionWrapper()
-        self.loan_status_df = None
 
     def login(self, login_id: str, login_pass: str):
         """
@@ -318,7 +335,7 @@ class RunnersManager:
         result = [e for e in result if e.get_days_to_deadline(standard_date) <= days_until_deadline]
         return result
 
-    def filter_extendable_books(self, borrowed_books, days_until_deadline):
+    def filter_extendable_books(self, borrowed_books, days_until_deadline, standard_date):
         """
         延長可能で、かつ返却期限日まで残り指定日数以内の本をフィルタする
 
@@ -379,11 +396,6 @@ class RunnersManager:
             'reqCode': 'extre',
             'disp': 're'
         }, form_xpath=loan_status_form_xpath)
-
-    def extend(self, login_id: str, login_pass: str, days_until_deadline: int):
-        self.login(login_id, login_pass)
-        borrowed_books = self.get_borrowed_books()
-        self.extend_books(borrowed_books, days_until_deadline)
 
 
 if __name__ == '__main__':
