@@ -5,8 +5,10 @@ import lxml.html
 import pandas
 import datetime
 import wx
+import wx.adv
 import pdb
 import re
+import sys
 
 # 関数定義
 
@@ -69,7 +71,7 @@ class SessionWrapper:
             for elem in input_elems:
                 if elem.name not in data:
                     data[elem.name] = elem.value
-        pdb.set_trace()
+        # pdb.set_trace()
         r = self._session.post(url, data=data)
         r.raise_for_status()
         r.encoding = r.apparent_encoding
@@ -221,7 +223,7 @@ class RunnersManager:
             'passwd': login_pass
         }, form_xpath=login_form_xpath)
 
-    def get_borrowed_books(self) -> list[BorrowedBook]:
+    def get_borrowed_books(self) -> list:
         """
         貸出中の本をBorrowedBookオブジェクトのリストで取得し返す
         入力: ログイン済みself.session
@@ -249,7 +251,6 @@ class RunnersManager:
         table_elem = session.xpath(loan_status_table_xpath)[0]
         table_elem_source = get_source_of_HtmlElement(table_elem, session.encoding)
         df = pandas.read_html(table_elem_source)[0]
-        df[lst_colname__deadline] = pandas.to_datetime(df[lst_colname__deadline])
 
         # BorrowedBookオブジェクトを生成してリストに格納する
         for index, row in df.iterrows():
@@ -290,35 +291,88 @@ class RunnersManager:
             result.append(book)
         return result
 
-    def extend_books(self, borrowed_books: list[BorrowedBook], days_until_deadline=0):
+    def filter_unextendable_books(self, borrowed_books, days_until_deadline, standard_date):
         """
-        貸出状況をチェックし、延長すべきものがあれば延長する。
+        これ以上延長できず、かつ返却期限日まで残り指定日数以内の本をフィルタする
 
         Parameters
         ----------
         borrowed_books: list[BorrowedBook]
             貸出中の本のBorrowedBookリスト
-
         days_until_deadline: int
-            期限日まであと何日に迫っているとき、延長を実行するか。デフォルトは0=期限日当日。
+            返却期限日までの残り日数
+        standard_date: datetime.date
+            残り日数を数える基準となる日時
+
+        Return
+        ----------
+        result: list[BorrowedBook]
+            フィルタされた本のBorrowedBookリスト
         """
+        if not borrowed_books or not isinstance(borrowed_books, list):
+            raise Exception(sys._getframe().f_code.co_name + ": 貸出中の本が入力されていません。")
+        if not isinstance(borrowed_books[0], BorrowedBook):
+            raise Exception(sys._getframe().f_code.co_name + ": 貸出中の本が正しいオブジェクトになっていません。")
+        result = []
+        result = [e for e in borrowed_books if not e.is_extendable]
+        result = [e for e in result if e.get_days_to_deadline(standard_date) <= days_until_deadline]
+        return result
+
+    def filter_extendable_books(self, borrowed_books, days_until_deadline):
+        """
+        延長可能で、かつ返却期限日まで残り指定日数以内の本をフィルタする
+
+        Parameters
+        ----------
+        borrowed_books: list[BorrowedBook]
+            貸出中の本のBorrowedBookリスト
+        days_until_deadline: int
+            返却期限日までの残り日数
+        standard_date: datetime.date
+            残り日数を数える基準となる日時
+
+        Return
+        ----------
+        result: list[BorrowedBook]
+            フィルタされた本のBorrowedBookリスト
+        """
+        if not borrowed_books or not isinstance(borrowed_books, list):
+            raise Exception(sys._getframe().f_code.co_name + ": 貸出中の本が入力されていません。")
+        if not isinstance(borrowed_books[0], BorrowedBook):
+            raise Exception(sys._getframe().f_code.co_name + ": 貸出中の本が正しいオブジェクトになっていません。")
+        result = []
+        result = [e for e in borrowed_books if e.is_extendable]
+        result = [e for e in result if e.get_days_to_deadline(standard_date) <= days_until_deadline]
+        return result
+
+    def extend_books(self, borrowed_books: list):
+        """
+        貸出中の本を延長する。
+
+        Parameters
+        ----------
+        borrowed_books: list[BorrowedBook]
+            延長したい本のBorrowedBookリスト
+        """
+        if not borrowed_books or not isinstance(borrowed_books, list):
+            raise Exception(sys._getframe().f_code.co_name + ": 貸出中の本が入力されていません。")
+        if not isinstance(borrowed_books[0], BorrowedBook):
+            raise Exception(sys._getframe().f_code.co_name + ": 貸出中の本が正しいオブジェクトになっていません。")
+
         loan_status_url = 'https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0'
         loan_status_form_xpath = '//form[@id="srv_odr_stat_re"]'
         loan_post_url = 'https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0'
 
         session = self.session
-        # 貸出状況確認ページに移動
+        # 貸出状況確認ページに移動する
         if session.url != loan_status_url:
             session.get(loan_status_url)
 
-        # 「返却期限日」が今日になっている本の「資料番号」を取得
-        today = datetime.date.today()
-        bookid_list = [e.bookid for e in borrowed_books if e.get_days_to_deadline(today) <= days_until_deadline]
+        # データを用意する
+        bookid_list = [e.bookid for e in borrowed_books]
         bookid_str = ','.join(bookid_list)
-        if not bookid_list:
-            raise Exception("bookid_listが見つかりません。")
 
-        # 資料番号をPOST送信する（bookid, extchk）
+        # POST送信する（bookid, extchk）
         session.post(loan_post_url, data={
             'bookid': bookid_str,
             'extchk[]': bookid_list,
@@ -333,4 +387,8 @@ class RunnersManager:
 
 
 if __name__ == '__main__':
-    pass
+    LOGIN_ID = 'cp0006fx'
+    LOGIN_PASS = 'Jby1k3hy'
+
+    rm = RunnersManager()
+    rm.extend(LOGIN_ID, LOGIN_PASS, 0)
