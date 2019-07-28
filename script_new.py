@@ -9,6 +9,7 @@ import wx.adv
 import pdb
 import re
 import sys
+import json
 
 # 関数定義
 
@@ -111,52 +112,83 @@ class SiteChangedException(Exception):
     pass
 
 
+def create_menu_item(menu, label, func):
+    item = wx.MenuItem(menu, -1, label)
+    menu.AppendItem(item)
+    menu.Bind(wx.EVT_MENU, func, id=item.GetId())
+
+    return item
+
+
 class TaskBarIcon(wx.adv.TaskBarIcon):
     '''
     View
     '''
 
-    def __init__(self, frame, icon_path, tray_tip=''):
+    def __init__(self, frame):
         self.frame = frame
         super(TaskBarIcon, self).__init__()
-        self.icon = wx.Icon(wx.Bitmap(icon_path))
-        self.SetIcon(self.icon, tray_tip)
-        self.Bind(wx.adv.EVT_TASKBAR_LEFT_DCLICK, self.app.on_taskbar_l_dclick)
+        self.set_icon('logo.ico', '立命館図書館の延長自動化')
+        self.Bind(wx.adv.EVT_TASKBAR_LEFT_DCLICK, self.on_extend)
+
+    def CreatePopupMenu(self):
+        menu = wx.Menu()
+        create_menu_item(menu, 'Extend', self.on_extend)
+        menu.AppendSeparator()
+        create_menu_item(menu, 'Exit', self.on_exit)
+
+        return menu
 
     @property
     def app(self):
         return wx.GetApp()
 
-    def set_traytip(self, text):
-        self.SetIcon(self.icon, text)
+    def set_icon(self, path, tray_tip):
+        icon = wx.Icon(wx.Bitmap(path))
+        self.SetIcon(icon, tray_tip)
+
+    def set_traytip(self, tray_tip):
+        self.SetIcon(self.icon, tray_tip)
+
+    def on_extend(self, evt):
+        self.app.on_taskbar_l_dclick(evt)
+
+    def on_exit(self, evt):
+        wx.CallAfter(self.Destroy)
+        self.frame.Close()
 
 
-class app(wx.App):
+class App(wx.App):
     '''
     Model
     '''
 
     def OnInit(self):
         # view
-        frame = wx.Frame(False)
+        frame = wx.Frame(None)
         self.SetTopWindow(frame)
-        TaskBarIcon(frame, 'logo.ico', '立命館図書館の延長自動化')
+        TaskBarIcon(frame)
         # model
         # setting
-        with open('settings.json', 'r', encoding='utf-8') as f:
+        with open('setting.json', 'r', encoding='utf-8') as f:
             self.S = json.load(f)
 
+        print('launch app')
+        return True
+
     def on_taskbar_l_dclick(self, evt):
-        pass
+        self.main(evt)
 
     def main(self, evt):
         S = self.S
+
         # Variable
         LOGIN_ID = S['user']['site_info']['auth']['login_id']
         LOGIN_PASS = S['user']['site_info']['auth']['login_pass']
         DAYS_TO_EXTEND = S['user']['program']['behavior']['extension']['days_to_extend']
         DAYS_TO_ALERT = S['user']['program']['behavior']['alert']['days_to_alert']
         today = datetime.date.today()
+
         # Main
         RM = RunnersManager()
         RM.login(LOGIN_ID, LOGIN_PASS)
@@ -399,8 +431,5 @@ class RunnersManager:
 
 
 if __name__ == '__main__':
-    LOGIN_ID = 'cp0006fx'
-    LOGIN_PASS = 'Jby1k3hy'
-
-    rm = RunnersManager()
-    rm.extend(LOGIN_ID, LOGIN_PASS, 0)
+    app = App(False)
+    app.MainLoop()
