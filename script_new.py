@@ -10,6 +10,8 @@ import pdb
 import re
 import sys
 import json
+import copy
+import threading
 
 # 関数定義
 
@@ -108,10 +110,6 @@ class SessionWrapper:
         return self.result.encoding
 
 
-class SiteChangedException(Exception):
-    pass
-
-
 def create_menu_item(menu, label, func):
     item = wx.MenuItem(menu, -1, label)
     menu.AppendItem(item)
@@ -133,9 +131,10 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
     def CreatePopupMenu(self):
         menu = wx.Menu()
-        create_menu_item(menu, 'Extend', self.on_extend)
+        create_menu_item(menu, '延長実行', self.on_extend)
         menu.AppendSeparator()
-        create_menu_item(menu, 'Exit', self.on_exit)
+        create_menu_item(menu, '設定', self.on_open_setting)
+        create_menu_item(menu, '終了', self.on_exit)
 
         return menu
 
@@ -150,8 +149,11 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
     def set_traytip(self, tray_tip):
         self.SetIcon(self.icon, tray_tip)
 
+    def on_open_setting(self, evt):
+        pass
+
     def on_extend(self, evt):
-        self.app.on_taskbar_l_dclick(evt)
+        self.app.main()
 
     def on_exit(self, evt):
         wx.CallAfter(self.Destroy)
@@ -174,12 +176,17 @@ class App(wx.App):
             self.S = json.load(f)
 
         print('launch app')
+
+        # execute main method
+        interval_hours = 3
+        self.execute_main_in_every(interval_hours)
+
         return True
 
     def on_taskbar_l_dclick(self, evt):
-        self.main(evt)
+        self.main()
 
-    def main(self, evt):
+    def main(self):
         S = self.S
 
         # Variable
@@ -196,6 +203,13 @@ class App(wx.App):
         books_to_extend = RM.filter_extendable_books(books, DAYS_TO_EXTEND, today)
         books_to_alert = RM.filter_unextendable_books(books, DAYS_TO_ALERT, today)
         RM.extend_books(books_to_extend)
+
+    def execute_main_in_every(self, hours):
+        self.main()
+        interval_seconds = hours * 60 * 60
+        t = threading.Timer(interval_seconds, self.execute_main_in_every, [hours])
+        t.daemon = True
+        t.start()
 
 
 class BorrowedBook:
@@ -271,6 +285,26 @@ class RunnersManager:
             'userid': login_id,
             'passwd': login_pass
         }, form_xpath=login_form_xpath)
+
+    @property
+    def is_logged_in(self):
+        """
+        現在ログイン中かどうか。
+
+        Result
+        ----------
+        void: boolean
+            ログイン中ならTrue, 未ログインならFalse
+        """
+        temp_session = copy.deepcopy(self.session)
+        loan_status_url = 'https://runners.ritsumei.ac.jp/opac/odr_stat/?lang=0'
+        loan_status_table_xpath = '//table[@id="datatables_re"]'
+
+        temp_session.get(loan_status_url)
+        if temp_session.xpath(loan_status_table_xpath):
+            return True
+        else:
+            return False
 
     def get_borrowed_books(self) -> list:
         """
